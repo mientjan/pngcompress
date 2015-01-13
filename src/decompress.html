@@ -1,0 +1,57 @@
+<html>
+<head></head>
+<body>
+	<script>
+		function decompress(src){
+			var img = new Image();
+			img.onload = function(){
+
+				var canvas = document.createElement("canvas");
+				canvas.width = this.width;
+				canvas.height = this.height;
+
+				var canvasContext = canvas.getContext('2d');
+				canvasContext.drawImage(this, 0, 0);
+				var data = canvasContext.getImageData(0,0, this.width, this.height).data;
+				console.log(data.length/4, this.width, this.height);
+				var result = [];
+				var i = 0;
+				var str = String.fromCharCode(data[i]);
+				for (i = 0; i < data.length; i+=4)
+				{
+//					result += ',[' + data[i] + ',' + String.fromCharCode(data[i]) + ']';
+					result.push(String.fromCharCode(data[i]));
+				}
+				console.log(result.length);
+
+				var textarea = document.createElement('textarea');
+				textarea.style.width = '100%';
+				textarea.style.height = '100%';
+				textarea.innerHTML = result.join('');
+				document.body.appendChild(textarea);
+
+//				var testDigit = /\d/;
+//				for(var i = 0; i < result.length; i++)
+//				{
+//					if( !testDigit.test(result[i]) ){
+//						console.log(result[i], i);
+//					}
+//
+//				}
+//
+//
+//				console.log(result[result.length - 1]);
+//				debugger;
+			}
+			img.src = src;
+//			console.log(img, src);
+
+			document.body.appendChild(img);
+		}
+
+		decompress('createjs.png');
+	</script>
+</body>
+</html>
+
+
